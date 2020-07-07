@@ -1,0 +1,11 @@
+port: 8080
+database:
+  host: localhost
+  port: 5432
+  name: postgres
+  user: postgres
+  password: postgres
+  config:
+    dialect: "postgres"
+    debug: true
+    auto-migrate: true
