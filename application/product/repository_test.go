@@ -1,9 +1,9 @@
-package repository_test
+package product_test
 
 import (
+	"github.com/alexandrebrundias/product-crud/application/product"
 	"github.com/alexandrebrundias/product-crud/core"
 	"github.com/alexandrebrundias/product-crud/infrastructure/database"
-	"github.com/alexandrebrundias/product-crud/product/repository"
 	UUID "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -14,9 +14,9 @@ func TestProductRepoistory_Insert_Find(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
 	defer db.Close()
-	repo := repository.NewRepoistory(db)
+
+	repo := product.NewRepoistory(db)
 
 	p := &core.Product{
 		ID:          UUID.NewV4().String(),
@@ -26,7 +26,7 @@ func TestProductRepoistory_Insert_Find(t *testing.T) {
 		Price:       30.2,
 	}
 
-	err = repo.Insert(p)
+	_, err = repo.Insert(p)
 	require.Nil(t, err)
 
 	pFind, err := repo.FindById(p.ID)
