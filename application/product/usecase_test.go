@@ -2,56 +2,57 @@ package product_test
 
 import (
 	"github.com/alexandrebrundias/product-crud/application/product"
-	"github.com/alexandrebrundias/product-crud/core"
-	"github.com/alexandrebrundias/product-crud/infrastructure/database"
-	UUID "github.com/satori/go.uuid"
-	"github.com/stretchr/testify/require"
-	"log"
+	"github.com/alexandrebrundias/product-crud/application/product/mock"
+	"github.com/alexandrebrundias/product-crud/domain"
+	"github.com/bxcodec/faker/v3"
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
+	"math/rand"
 	"testing"
 )
 
-var	productMock = &core.Product{
-		ID:          UUID.NewV4().String(),
-		Name:        "TESTE",
-		Description: "DESCRIPTION TESTE",
-		Quantity:    50,
-		Price:       30.2,
-}
+func TestProductUsecase_Create(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-func getRepository() *product.Repoistory {
-	db, err := database.NewDatabaseTest().Connect()
-	if err != nil {
-		log.Fatal(err)
+	productFake := &domain.Product{
+		ID:          faker.UUIDDigit(),
+		Name:        faker.Name(),
+		Description: faker.Paragraph(),
+		Quantity:    rand.Int63(),
+		Price:       rand.Float32(),
 	}
 
-	return product.NewRepoistory(db)
-}
+	repository := mock.NewMockProductRepository(ctrl)
+	repository.EXPECT().Insert(productFake).Return(productFake, nil)
 
-func TestProductUsecase_Create(t *testing.T) {
-	repo := getRepository()
-	defer repo.Db.Close()
+	usecase := product.NewUsecase(repository)
+	p, err := usecase.Create(productFake)
 
-	usecase := product.NewUsecase(repo)
-	_, err := usecase.Create(productMock)
-	require.Nil(t, err)
-
-	pFind, err := repo.FindById(productMock.ID)
-
-	require.Nil(t, err)
-	require.Equal(t, productMock.ID, pFind.ID)
-	require.Equal(t, productMock.Price, pFind.Price)
+	assert.Nil(t, err)
+	assert.Equal(t, productFake.ID, p.ID)
+	assert.Equal(t, productFake.Price, p.Price)
 }
 
 func TestProductUsecase_FindById(t *testing.T) {
-	repo := getRepository()
-	defer repo.Db.Close()
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-	usecase := product.NewUsecase(repo)
+	productFake := &domain.Product{
+		ID:          faker.UUIDDigit(),
+		Name:        faker.Name(),
+		Description: faker.Paragraph(),
+		Quantity:    rand.Int63(),
+		Price:       rand.Float32(),
+	}
 
-	repo.Insert(productMock)
-	pFind, err := usecase.FindById(productMock.ID)
+	repository := mock.NewMockProductRepository(ctrl)
+	repository.EXPECT().FindById(productFake.ID).Return(productFake, nil)
 
-	require.Nil(t, err)
-	require.Equal(t, productMock.ID, pFind.ID)
-	require.Equal(t, productMock.Price, pFind.Price)
+	usecase := product.NewUsecase(repository)
+	p, err := usecase.FindById(productFake.ID)
+
+	assert.Nil(t, err)
+	assert.Equal(t, productFake.ID, p.ID)
+	assert.Equal(t, productFake.Price, p.Price)
 }

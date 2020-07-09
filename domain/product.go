@@ -1,20 +1,16 @@
-package core
+package domain
 
-import validator "gopkg.in/go-playground/validator.v9"
+import "gopkg.in/go-playground/validator.v9"
 
 type Product struct {
-	ID          string  `json:"id" gorm:"type:uuid;primary_key"`
+	ID          string  `json:"id" gorm:"type:uuid;primary_key" validate:"required"`
 	Name        string  `json:"name" validate:"required"`
 	Description string  `json:"description"`
-	Quantity    int     `json:"quantity" validate:"required"`
+	Quantity    int64   `json:"quantity"`
 	Price       float32 `json:"price" validate:"required"`
 }
 
-func NewProduct(ID, Name, Descript string, Quantity int, Price float32) *Product {
-	return &Product{ID, Name, Descript, Quantity, Price}
-}
-
-func (p Product) Validate() error{
+func (p Product) Validate() error {
 	validate := validator.New()
 	return validate.Struct(p)
 }

@@ -3,7 +3,9 @@ module github.com/alexandrebrundias/product-crud
 go 1.14
 
 require (
+	github.com/bxcodec/faker/v3 v3.5.0
 	github.com/go-playground/universal-translator v0.17.0 // indirect
+	github.com/golang/mock v1.3.1
 	github.com/jinzhu/gorm v1.9.14
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.3.0 // indirect

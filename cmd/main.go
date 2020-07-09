@@ -34,7 +34,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.InitMiddleware().CORS)
 
-	productRepoistory := product.NewRepoistory(db)
+	productRepoistory := product.NewRepository(db)
 	productUsecase := product.NewUsecase(productRepoistory)
 	product.NewHandler(e, productUsecase)
 

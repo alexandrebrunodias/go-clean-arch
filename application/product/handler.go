@@ -2,16 +2,16 @@ package product
 
 import (
 	"github.com/alexandrebrundias/product-crud/application/delivery/http/response"
-	"github.com/alexandrebrundias/product-crud/core"
+	"github.com/alexandrebrundias/product-crud/domain"
 	"github.com/labstack/echo"
 	"net/http"
 )
 
 type Handler struct {
-	ProductUsecase core.ProductUsecase
+	ProductUsecase domain.ProductUsecase
 }
 
-func NewHandler(e *echo.Echo, usecase core.ProductUsecase) {
+func NewHandler(e *echo.Echo, usecase domain.ProductUsecase) {
 	handler := &Handler{usecase}
 
 	e.GET("/products/:id", handler.GetByID)
@@ -20,7 +20,7 @@ func NewHandler(e *echo.Echo, usecase core.ProductUsecase) {
 }
 
 func (h *Handler) Create(c echo.Context) error {
-	var product core.Product
+	var product domain.Product
 	if err := c.Bind(&product); err != nil {
 		return c.JSON(http.StatusInternalServerError, response.Response{Message: err.Error()})
 	}

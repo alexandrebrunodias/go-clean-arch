@@ -1,18 +1,18 @@
 package product
 
 import (
-	"github.com/alexandrebrundias/product-crud/core"
+	"github.com/alexandrebrundias/product-crud/domain"
 )
 
 type Usecase struct {
-	ProductRepository core.ProductRepository
+	ProductRepository domain.ProductRepository
 }
 
-func NewUsecase(repository core.ProductRepository) *Usecase {
+func NewUsecase(repository domain.ProductRepository) *Usecase {
 	return &Usecase{repository}
 }
 
-func (p Usecase) Create(product *core.Product) (*core.Product, error) {
+func (p Usecase) Create(product *domain.Product) (*domain.Product, error) {
 	_, err := p.ProductRepository.Insert(product)
 
 	if err != nil {
@@ -22,11 +22,11 @@ func (p Usecase) Create(product *core.Product) (*core.Product, error) {
 	return product, nil
 }
 
-func (p Usecase) FindById(id string) (*core.Product, error) {
+func (p Usecase) FindById(id string) (*domain.Product, error) {
 	return p.ProductRepository.FindById(id)
 }
 
-func (p Usecase) Update(product *core.Product) (*core.Product, error) {
+func (p Usecase) Update(product *domain.Product) (*domain.Product, error) {
 	panic("implement me")
 }
 

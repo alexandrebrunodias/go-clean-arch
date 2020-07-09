@@ -2,7 +2,7 @@ package database
 
 import (
 	"fmt"
-	"github.com/alexandrebrundias/product-crud/core"
+	"github.com/alexandrebrundias/product-crud/domain"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	_ "github.com/lib/pq"
@@ -49,7 +49,7 @@ func (d Database) Connect() (*gorm.DB, error) {
 	d.db.LogMode(d.debug)
 
 	if d.autoMigrate {
-		d.db.AutoMigrate(&core.Product{})
+		d.db.AutoMigrate(&domain.Product{})
 	}
 
 	return d.db, nil

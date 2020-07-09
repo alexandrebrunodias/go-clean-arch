@@ -2,10 +2,11 @@ package product_test
 
 import (
 	"github.com/alexandrebrundias/product-crud/application/product"
-	"github.com/alexandrebrundias/product-crud/core"
+	"github.com/alexandrebrundias/product-crud/domain"
 	"github.com/alexandrebrundias/product-crud/infrastructure/database"
-	UUID "github.com/satori/go.uuid"
+	"github.com/bxcodec/faker/v3"
 	"github.com/stretchr/testify/require"
+	"math/rand"
 	"testing"
 )
 
@@ -16,22 +17,22 @@ func TestProductRepoistory_Insert_Find(t *testing.T) {
 	}
 	defer db.Close()
 
-	repo := product.NewRepoistory(db)
+	repo := product.NewRepository(db)
 
-	p := &core.Product{
-		ID:          UUID.NewV4().String(),
-		Name:        "TESTE",
-		Description: "DESCRIPTION TESTE",
-		Quantity:    50,
-		Price:       30.2,
+	productFake := &domain.Product{
+		ID:          faker.UUIDDigit(),
+		Name:        faker.Name(),
+		Description: faker.Name(),
+		Quantity:    rand.Int63(),
+		Price:       rand.Float32(),
 	}
 
-	_, err = repo.Insert(p)
+	_, err = repo.Insert(productFake)
 	require.Nil(t, err)
 
-	pFind, err := repo.FindById(p.ID)
+	p, err := repo.FindById(productFake.ID)
 
 	require.Nil(t, err)
-	require.Equal(t, p.ID, pFind.ID)
-	require.Equal(t, p.Price, pFind.Price)
+	require.Equal(t, productFake.ID, p.ID)
+	require.Equal(t, productFake.Price, p.Price)
 }

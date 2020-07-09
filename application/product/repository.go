@@ -2,20 +2,20 @@ package product
 
 import (
 	"fmt"
-	"github.com/alexandrebrundias/product-crud/core"
+	"github.com/alexandrebrundias/product-crud/domain"
 	"github.com/jinzhu/gorm"
 	UUID "github.com/satori/go.uuid"
 )
 
-type Repoistory struct {
+type Repository struct {
 	Db *gorm.DB
 }
 
-func NewRepoistory(Db *gorm.DB) *Repoistory {
-	return &Repoistory{Db}
+func NewRepository(Db *gorm.DB) *Repository {
+	return &Repository{Db}
 }
 
-func (r Repoistory) Insert(product *core.Product) (*core.Product, error) {
+func (r Repository) Insert(product *domain.Product) (*domain.Product, error) {
 	product.ID = UUID.NewV4().String()
 
 	if err := r.Db.Create(product).Error; err != nil {
@@ -25,16 +25,16 @@ func (r Repoistory) Insert(product *core.Product) (*core.Product, error) {
 	return product, nil
 }
 
-func (r Repoistory) FindAll() ([]*core.Product, error) {
+func (r Repository) FindAll() ([]*domain.Product, error) {
 	panic("implement me")
 }
 
-func (r Repoistory) FindById(id string) (*core.Product, error) {
+func (r Repository) FindById(id string) (*domain.Product, error) {
 	if id == "" {
 		return nil, fmt.Errorf("id cannot be empty")
 	}
 
-	var product core.Product
+	var product domain.Product
 	r.Db.First(&product, "id = ?", id)
 
 	if product.ID == ""{
@@ -45,11 +45,11 @@ func (r Repoistory) FindById(id string) (*core.Product, error) {
 
 }
 
-func (r Repoistory) Update(product *core.Product) (*core.Product, error) {
+func (r Repository) Update(product *domain.Product) (*domain.Product, error) {
 	panic("implement me")
 }
 
-func (r Repoistory) Delete(id string) error {
+func (r Repository) Delete(id string) error {
 	panic("implement me")
 }
 
