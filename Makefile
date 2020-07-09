@@ -1,7 +1,7 @@
 mock:
 	@go get github.com/golang/mock/gomock
 	@go install github.com/golang/mock/mockgen
-	@~/go/bin/mockgen -source=domain/product.go -destination=product/mock/product_mock.go -package=mock
+	@$(GOPATH)/bin/mockgen -source=domain/product.go -destination=product/mocks/product_mock.go -package=mocks
 
 test:
 	go test ./...

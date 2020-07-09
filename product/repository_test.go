@@ -5,6 +5,7 @@ import (
 	"github.com/alexandrebrundias/product-crud/infrastructure/database"
 	"github.com/alexandrebrundias/product-crud/product"
 	"github.com/bxcodec/faker/v3"
+	UUID "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -19,6 +20,7 @@ func TestProductRepoistory_Insert_Find(t *testing.T) {
 
 	var productFake *domain.Product
 	err = faker.FakeData(&productFake)
+	productFake.ID = UUID.NewV4().String()
 	assert.NoError(t, err)
 
 	_, err = repo.Insert(productFake)

@@ -3,7 +3,7 @@ package product_test
 import (
 	"github.com/alexandrebrundias/product-crud/domain"
 	"github.com/alexandrebrundias/product-crud/product"
-	"github.com/alexandrebrundias/product-crud/product/mock"
+	"github.com/alexandrebrundias/product-crud/product/mocks"
 	"github.com/bxcodec/faker/v3"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -18,10 +18,10 @@ func TestProductUsecase_Create(t *testing.T) {
 	err := faker.FakeData(&productFake)
 	assert.NoError(t, err)
 
-	repository := mock.NewMockProductRepository(ctrl)
-	repository.EXPECT().Insert(productFake).Return(productFake, nil)
+	repositoryMock := mocks.NewMockProductRepository(ctrl)
+	repositoryMock.EXPECT().Insert(productFake).Return(productFake, nil)
 
-	usecase := product.NewUsecase(repository)
+	usecase := product.NewUsecase(repositoryMock)
 	p, err := usecase.Create(productFake)
 
 	assert.Nil(t, err)
@@ -37,10 +37,10 @@ func TestProductUsecase_FindById(t *testing.T) {
 	err := faker.FakeData(&productFake)
 	assert.NoError(t, err)
 
-	repository := mock.NewMockProductRepository(ctrl)
-	repository.EXPECT().FindById(productFake.ID).Return(productFake, nil)
+	repositoryMock := mocks.NewMockProductRepository(ctrl)
+	repositoryMock.EXPECT().FindById(productFake.ID).Return(productFake, nil)
 
-	usecase := product.NewUsecase(repository)
+	usecase := product.NewUsecase(repositoryMock)
 	p, err := usecase.FindById(productFake.ID)
 
 	assert.Nil(t, err)

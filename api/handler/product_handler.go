@@ -19,31 +19,31 @@ func NewProductHandler(e *echo.Echo, usecase domain.ProductUsecase) {
 	e.POST("/products/", handler.Create)
 }
 
-func (p *ProductHandler) Create(c echo.Context) error {
+func (p *ProductHandler) Create(ctx echo.Context) error {
 	var product domain.Product
-	if err := c.Bind(&product); err != nil {
-		return c.JSON(http.StatusInternalServerError, common.Response{Message: err.Error()})
+	if err := ctx.Bind(&product); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, common.Response{Message: err.Error()})
 	}
 
 	if err := product.Validate(); err != nil {
-		return c.JSON(http.StatusBadRequest, common.Response{Message: err.Error()})
+		return ctx.JSON(http.StatusBadRequest, common.Response{Message: err.Error()})
 	}
 
 	_, err := p.ProductUsecase.Create(&product)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, common.Response{Message: err.Error()})
+		return ctx.JSON(http.StatusInternalServerError, common.Response{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusCreated, product)
+	return ctx.JSON(http.StatusCreated, product)
 }
 
-func (p *ProductHandler) GetByID(c echo.Context) error {
-	id := c.Param("id")
+func (p *ProductHandler) GetByID(ctx echo.Context) error {
+	id := ctx.Param("id")
 	product, err := p.ProductUsecase.FindById(id)
 
 	if err != nil {
-		return c.JSON(http.StatusNotFound, common.Response{Message: err.Error()})
+		return ctx.JSON(http.StatusNotFound, common.Response{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, product)
+	return ctx.JSON(http.StatusOK, product)
 }

@@ -1,6 +1,7 @@
 package product
 
 import (
+	"fmt"
 	"github.com/alexandrebrundias/product-crud/domain"
 )
 
@@ -23,7 +24,21 @@ func (u Usecase) Create(product *domain.Product) (*domain.Product, error) {
 }
 
 func (u Usecase) FindById(id string) (*domain.Product, error) {
-	return u.ProductRepository.FindById(id)
+	if id == "" {
+		return nil, fmt.Errorf("id cannot be empty")
+	}
+
+	product, err := u.ProductRepository.FindById(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if product.ID == ""{
+		return nil, fmt.Errorf("product not found")
+	}
+
+	return product, nil
 }
 
 func (u Usecase) Update(product *domain.Product) (*domain.Product, error) {

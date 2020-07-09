@@ -1,9 +1,10 @@
 package product
 
 import (
-	"fmt"
+	"github.com/alexandrebrundias/product-crud/api/common"
 	"github.com/alexandrebrundias/product-crud/domain"
 	"github.com/jinzhu/gorm"
+	"github.com/labstack/gommon/log"
 	UUID "github.com/satori/go.uuid"
 )
 
@@ -19,7 +20,8 @@ func (r Repository) Insert(product *domain.Product) (*domain.Product, error) {
 	product.ID = UUID.NewV4().String()
 
 	if err := r.Db.Create(product).Error; err != nil {
-		return nil, err
+		log.Error(err)
+		return nil, common.ErrInternal
 	}
 
 	return product, nil
@@ -30,19 +32,15 @@ func (r Repository) FindAll() ([]*domain.Product, error) {
 }
 
 func (r Repository) FindById(id string) (*domain.Product, error) {
-	if id == "" {
-		return nil, fmt.Errorf("id cannot be empty")
-	}
-
 	var product domain.Product
-	r.Db.First(&product, "id = ?", id)
+	err := r.Db.First(&product, "id = ?", id).Error
 
-	if product.ID == ""{
-		return nil, fmt.Errorf("product not found")
+	if err != nil {
+		log.Error(err)
+		return nil, common.ErrInternal
 	}
 
 	return &product, nil
-
 }
 
 func (r Repository) Update(product *domain.Product) (*domain.Product, error) {
