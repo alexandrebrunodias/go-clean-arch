@@ -1,13 +1,12 @@
 package product_test
 
 import (
-	"github.com/alexandrebrundias/product-crud/application/product"
-	"github.com/alexandrebrundias/product-crud/application/product/mock"
 	"github.com/alexandrebrundias/product-crud/domain"
+	"github.com/alexandrebrundias/product-crud/product"
+	"github.com/alexandrebrundias/product-crud/product/mock"
 	"github.com/bxcodec/faker/v3"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"math/rand"
 	"testing"
 )
 
@@ -15,13 +14,9 @@ func TestProductUsecase_Create(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	productFake := &domain.Product{
-		ID:          faker.UUIDDigit(),
-		Name:        faker.Name(),
-		Description: faker.Paragraph(),
-		Quantity:    rand.Int63(),
-		Price:       rand.Float32(),
-	}
+	var productFake *domain.Product
+	err := faker.FakeData(&productFake)
+	assert.NoError(t, err)
 
 	repository := mock.NewMockProductRepository(ctrl)
 	repository.EXPECT().Insert(productFake).Return(productFake, nil)
@@ -38,13 +33,9 @@ func TestProductUsecase_FindById(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	productFake := &domain.Product{
-		ID:          faker.UUIDDigit(),
-		Name:        faker.Name(),
-		Description: faker.Paragraph(),
-		Quantity:    rand.Int63(),
-		Price:       rand.Float32(),
-	}
+	var productFake *domain.Product
+	err := faker.FakeData(&productFake)
+	assert.NoError(t, err)
 
 	repository := mock.NewMockProductRepository(ctrl)
 	repository.EXPECT().FindById(productFake.ID).Return(productFake, nil)

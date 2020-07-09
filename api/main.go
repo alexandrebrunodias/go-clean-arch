@@ -1,19 +1,24 @@
 package main
 
 import (
-	"github.com/alexandrebrundias/product-crud/application/delivery/http/middleware"
-	"github.com/alexandrebrundias/product-crud/application/product"
+	"github.com/alexandrebrundias/product-crud/api/common"
+	"github.com/alexandrebrundias/product-crud/api/handler"
 	"github.com/alexandrebrundias/product-crud/infrastructure/database"
+	"github.com/alexandrebrundias/product-crud/product"
 	"github.com/labstack/echo"
 	"github.com/spf13/viper"
 	"log"
+	"path/filepath"
 )
 
 func init() {
-	viper.SetConfigFile("config.yml")
-	viper.SetConfigType("yml")
-	viper.AutomaticEnv()
+	abs, err := filepath.Abs(".")
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	viper.SetConfigFile(abs + "/config.yml")
+	viper.AutomaticEnv()
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatal(err)
 	}
@@ -32,11 +37,11 @@ func main() {
 	}()
 
 	e := echo.New()
-	e.Use(middleware.InitMiddleware().CORS)
+	e.Use(common.InitMiddleware().CORS)
 
 	productRepoistory := product.NewRepository(db)
 	productUsecase := product.NewUsecase(productRepoistory)
-	product.NewHandler(e, productUsecase)
+	handler.NewProductHandler(e, productUsecase)
 
 	log.Fatal(e.Start(":" + viper.GetString("port")))
 }

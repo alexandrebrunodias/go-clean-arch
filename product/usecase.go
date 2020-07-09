@@ -12,8 +12,8 @@ func NewUsecase(repository domain.ProductRepository) *Usecase {
 	return &Usecase{repository}
 }
 
-func (p Usecase) Create(product *domain.Product) (*domain.Product, error) {
-	_, err := p.ProductRepository.Insert(product)
+func (u Usecase) Create(product *domain.Product) (*domain.Product, error) {
+	_, err := u.ProductRepository.Insert(product)
 
 	if err != nil {
 		return nil, err
@@ -22,14 +22,14 @@ func (p Usecase) Create(product *domain.Product) (*domain.Product, error) {
 	return product, nil
 }
 
-func (p Usecase) FindById(id string) (*domain.Product, error) {
-	return p.ProductRepository.FindById(id)
+func (u Usecase) FindById(id string) (*domain.Product, error) {
+	return u.ProductRepository.FindById(id)
 }
 
-func (p Usecase) Update(product *domain.Product) (*domain.Product, error) {
+func (u Usecase) Update(product *domain.Product) (*domain.Product, error) {
 	panic("implement me")
 }
 
-func (p Usecase) Delete(id string) error {
+func (u Usecase) Delete(id string) error {
 	panic("implement me")
 }

@@ -61,6 +61,5 @@ func TestProduct_ValidateFailPrice(t *testing.T) {
 	}
 
 	err := p.Validate()
-
 	assert.NotNil(t, err)
 }

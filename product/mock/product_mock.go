@@ -5,7 +5,7 @@
 package mock
 
 import (
-	core "github.com/alexandrebrundias/product-crud/domain"
+	domain "github.com/alexandrebrundias/product-crud/domain"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
 )
@@ -34,10 +34,10 @@ func (m *MockProductUsecase) EXPECT() *MockProductUsecaseMockRecorder {
 }
 
 // Create mocks base method
-func (m *MockProductUsecase) Create(product *core.Product) (*core.Product, error) {
+func (m *MockProductUsecase) Create(product *domain.Product) (*domain.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", product)
-	ret0, _ := ret[0].(*core.Product)
+	ret0, _ := ret[0].(*domain.Product)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -49,10 +49,10 @@ func (mr *MockProductUsecaseMockRecorder) Create(product interface{}) *gomock.Ca
 }
 
 // FindById mocks base method
-func (m *MockProductUsecase) FindById(id string) (*core.Product, error) {
+func (m *MockProductUsecase) FindById(id string) (*domain.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindById", id)
-	ret0, _ := ret[0].(*core.Product)
+	ret0, _ := ret[0].(*domain.Product)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -64,10 +64,10 @@ func (mr *MockProductUsecaseMockRecorder) FindById(id interface{}) *gomock.Call 
 }
 
 // Update mocks base method
-func (m *MockProductUsecase) Update(product *core.Product) (*core.Product, error) {
+func (m *MockProductUsecase) Update(product *domain.Product) (*domain.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", product)
-	ret0, _ := ret[0].(*core.Product)
+	ret0, _ := ret[0].(*domain.Product)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -116,10 +116,10 @@ func (m *MockProductRepository) EXPECT() *MockProductRepositoryMockRecorder {
 }
 
 // Insert mocks base method
-func (m *MockProductRepository) Insert(product *core.Product) (*core.Product, error) {
+func (m *MockProductRepository) Insert(product *domain.Product) (*domain.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Insert", product)
-	ret0, _ := ret[0].(*core.Product)
+	ret0, _ := ret[0].(*domain.Product)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -131,10 +131,10 @@ func (mr *MockProductRepositoryMockRecorder) Insert(product interface{}) *gomock
 }
 
 // FindAll mocks base method
-func (m *MockProductRepository) FindAll() ([]*core.Product, error) {
+func (m *MockProductRepository) FindAll() ([]*domain.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindAll")
-	ret0, _ := ret[0].([]*core.Product)
+	ret0, _ := ret[0].([]*domain.Product)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -146,10 +146,10 @@ func (mr *MockProductRepositoryMockRecorder) FindAll() *gomock.Call {
 }
 
 // FindById mocks base method
-func (m *MockProductRepository) FindById(id string) (*core.Product, error) {
+func (m *MockProductRepository) FindById(id string) (*domain.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindById", id)
-	ret0, _ := ret[0].(*core.Product)
+	ret0, _ := ret[0].(*domain.Product)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -161,10 +161,10 @@ func (mr *MockProductRepositoryMockRecorder) FindById(id interface{}) *gomock.Ca
 }
 
 // Update mocks base method
-func (m *MockProductRepository) Update(product *core.Product) (*core.Product, error) {
+func (m *MockProductRepository) Update(product *domain.Product) (*domain.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", product)
-	ret0, _ := ret[0].(*core.Product)
+	ret0, _ := ret[0].(*domain.Product)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

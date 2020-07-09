@@ -1,4 +1,4 @@
-package product_test
+package handler_test
 
 import (
 	"testing"
